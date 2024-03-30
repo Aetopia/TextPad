@@ -50,7 +50,7 @@ class MainForm : Form
 
         toolStripButton2.Click += (sender, e) =>
         {
-            title = new SaveForm(title).Get().Trim();
+            title = new SaveForm(title, this).Get().Trim();
             if (!string.IsNullOrEmpty(title))
                 new Thread(() =>
                 {
@@ -74,13 +74,13 @@ class MainForm : Form
         {
             new Thread(() =>
             {
-                textBox.Enabled = menuStrip.Enabled = false;
                 HttpResponseMessage httpResponseMessage = Server.Post(new()
                 {
                     ["action"] = "titles",
                     ["token"] = token
                 });
-                title = new OpenForm(new JavaScriptSerializer().Deserialize<string[]>(httpResponseMessage.Content.ReadAsStringAsync().Result)).Get();
+                title = new OpenForm(token, new JavaScriptSerializer().Deserialize<string[]>(httpResponseMessage.Content.ReadAsStringAsync().Result), this).Get();
+                textBox.Enabled = menuStrip.Enabled = false;
                 if (!string.IsNullOrEmpty(title))
                 {
                     httpResponseMessage.Dispose();
@@ -92,6 +92,7 @@ class MainForm : Form
                     });
                     textBox.Text = httpResponseMessage.Content.ReadAsStringAsync().Result;
                 }
+                httpResponseMessage.Dispose();
                 textBox.Enabled = menuStrip.Enabled = true;
             }).Start();
             // new OpenForm(default).ShowDialog();

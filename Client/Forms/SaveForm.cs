@@ -7,8 +7,9 @@ class SaveForm : Form
     readonly TextBox textBox = new() { Dock = DockStyle.Fill };
     readonly string title = null;
 
-    public SaveForm(string title)
+    public SaveForm(string title, Form form)
     {
+        Owner = form;
         this.title = title;
         Text = "Save";
         Font = SystemFonts.MessageBoxFont;

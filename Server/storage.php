@@ -68,4 +68,22 @@ function content(string $token, string $title) {
     $mysqli->close();
     http_response_code(200);
 }
+
+function delete(string $token, string $title) {
+    $mysqli = new mysqli("localhost", "root", "", "textpad_users");
+    $token = trim($mysqli->real_escape_string($token));
+    $title = trim($mysqli->real_escape_string($title));
+
+    $row = @$mysqli->query("select username from users where token = '$token'")->fetch_assoc();
+    if ($row == null) {
+        http_response_code(400);
+        die();
+    }
+    $username = $row["username"];
+    
+    $mysqli->query("use textpad_users_data");
+    @$mysqli->query("delete from $username where title = '$title'");
+    $mysqli->close();
+    http_response_code(200);
+}
 ?>

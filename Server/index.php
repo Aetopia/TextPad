@@ -54,6 +54,14 @@ if ($_POST) {
             }
             content($_POST["token"], $_POST["title"]);
             break;
+
+        case "delete":
+            if (!isset($_POST["token"]) ||
+                !isset($_POST["title"])) {
+                http_response_code(400);
+                die();
+            }
+            delete($_POST["token"], $_POST["title"]);
     }    
 }
 ?>
