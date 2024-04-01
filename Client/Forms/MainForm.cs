@@ -65,7 +65,7 @@ class MainForm : Form
                     if (httpResponseMessage.StatusCode != HttpStatusCode.OK)
                         MessageBox.Show("Save failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     else
-                        MessageBox.Show("Save succeed.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Save succeeded.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     textBox.Enabled = menuStrip.Enabled = true;
                 }).Start();
         };
